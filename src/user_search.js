@@ -57,28 +57,6 @@ void this._runFetch(q, capturedPage);
 }, this.debounceMs);
 }
 
-async _runFetch(query, page) {
-this.loading = true;
-this._emit();
-let requestId = Symbol(); // Unique identifier for each request
-let currentRequestId = requestId; // Save reference to the current request ID
-let result;
-try {
-result = await this.fetchUsers(query, page, this.pageSize);
-} catch (err) {
-this.loading = false;
-this._emit();
-throw err;
-}
-// Only update state if the current request ID is the same as the resolved one
-if (currentRequestId === requestId) {
-this.users = result.users;
-this.total = result.total;
-}
-this.loading = false;
-this._emit();
-}
-
 getState() {
 return {
 query: this.query,
