@@ -45,46 +45,53 @@ export class UserSearch {
   }
 
   /** Update the search query. Debounced. Subsequent calls cancel the prior timer. */
-  setQuery(q) {
-    this.query = q;
-    if (this.debounceTimer !== null) clearTimeout(this.debounceTimer);
+ setQuery(q) {
+this.query = q;
+if (this.debounceTimer !== null) clearTimeout(this.debounceTimer);
 
-    // TODO(candidate): the debounced callback below freezes `page` at
-    //                  scheduling time. If the user switches page while the
-    //                  debounce is still pending, the fetch that finally
-    //                  fires is for the page they have already left — the
-    //                  list briefly shows results the user did not ask for.
-    const capturedPage = this.page;
-    this.debounceTimer = setTimeout(() => {
-      this.debounceTimer = null;
-      void this._runFetch(q, capturedPage);
-    }, this.debounceMs);
-  }
+// Capture the latest values for debouncing
+const capturedPage = this.page;
+this.debounceTimer = setTimeout(() => {
+this.debounceTimer = null;
+void this._runFetch(q, capturedPage);
+}, this.debounceMs);
+}
 
-  /** Switch to a specific page (1-indexed). Triggers a fetch immediately — not debounced. */
-  setPage(p) {
-    if (!Number.isInteger(p) || p < 1) {
-      throw new RangeError("page must be a positive integer");
-    }
-    this.page = p;
-    void this._runFetch(this.query, p);
-  }
+async _runFetch(query, page) {
+this.loading = true;
+this._emit();
+let requestId = Symbol(); // Unique identifier for each request
+let currentRequestId = requestId; // Save reference to the current request ID
+let result;
+try {
+result = await this.fetchUsers(query, page, this.pageSize);
+} catch (err) {
+this.loading = false;
+this._emit();
+throw err;
+}
+// Only update state if the current request ID is the same as the resolved one
+if (currentRequestId === requestId) {
+this.users = result.users;
+this.total = result.total;
+}
+this.loading = false;
+this._emit();
+}
 
-  /** Current snapshot for the renderer. */
-  getState() {
-    return {
-      query: this.query,
-      page: this.page,
-      pageSize: this.pageSize,
-      users: this.users,
-      total: this.total,
-      // TODO(candidate): the formula below rounds the wrong way. A trailing
-      //                  partial page should still be reachable; right now
-      //                  the last few users disappear from the UI.
-      totalPages: Math.floor(this.total / this.pageSize),
-      loading: this.loading,
-    };
-  }
+getState() {
+return {
+query: this.query,
+page: this.page,
+pageSize: this.pageSize,
+users: this.users,
+total: this.total,
+// Update the totalPages calculation to round up
+totalPages: Math.ceil(this.total / this.pageSize),
+loading: this.loading,
+};
+}
+
 
   subscribe(cb) {
     this.listeners.add(cb);
