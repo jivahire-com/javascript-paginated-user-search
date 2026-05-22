@@ -10,11 +10,6 @@
  *   - `subscribe(cb)` notifies subscribers of every state transition.
  *   - `getState()` returns the latest snapshot for the renderer.
  *
- * The starter passes the simplest happy paths but has planted bugs in
- * (a) what the debounced callback closes over, (b) how overlapping fetches
- * are reconciled, and (c) the totalPages math. Read the failing public tests
- * before changing anything — they point at the bugs without naming them.
- *
  * Expected shapes:
  *   fetchUsers(query, page, pageSize) -> Promise<{ users: User[], total: number }>
  *   User  = { id: string, name: string, email: string }
@@ -42,6 +37,11 @@ export class UserSearch {
     this.total = 0;
     this.loading = false;
     this.debounceTimer = null;
+
+    // Generation counter to track the most recent fetch request.
+    // Each call to _runFetch increments this; when the response arrives,
+    // it only commits if its generation matches the latest one.
+    this._fetchGeneration = 0;
   }
 
   /** Update the search query. Debounced. Subsequent calls cancel the prior timer. */
@@ -49,15 +49,12 @@ export class UserSearch {
     this.query = q;
     if (this.debounceTimer !== null) clearTimeout(this.debounceTimer);
 
-    // TODO(candidate): the debounced callback below freezes `page` at
-    //                  scheduling time. If the user switches page while the
-    //                  debounce is still pending, the fetch that finally
-    //                  fires is for the page they have already left — the
-    //                  list briefly shows results the user did not ask for.
-    const capturedPage = this.page;
+    // BUG FIX #1 (stale closure): Do NOT capture `page` at scheduling time.
+    // Instead, read `this.query` and `this.page` when the timer fires so
+    // the fetch always reflects the user's *current* state.
     this.debounceTimer = setTimeout(() => {
       this.debounceTimer = null;
-      void this._runFetch(q, capturedPage);
+      void this._runFetch(this.query, this.page);
     }, this.debounceMs);
   }
 
@@ -78,10 +75,8 @@ export class UserSearch {
       pageSize: this.pageSize,
       users: this.users,
       total: this.total,
-      // TODO(candidate): the formula below rounds the wrong way. A trailing
-      //                  partial page should still be reachable; right now
-      //                  the last few users disappear from the UI.
-      totalPages: Math.floor(this.total / this.pageSize),
+      // BUG FIX #3: Use Math.ceil so a trailing partial page is reachable.
+      totalPages: Math.ceil(this.total / this.pageSize),
       loading: this.loading,
     };
   }
@@ -103,21 +98,32 @@ export class UserSearch {
   }
 
   async _runFetch(query, page) {
+    // BUG FIX #2 (race condition): Increment the generation counter each
+    // time a fetch is initiated. Capture the current generation so we can
+    // check it when the response arrives.
+    const generation = ++this._fetchGeneration;
+
     this.loading = true;
     this._emit();
+
     let result;
     try {
       result = await this.fetchUsers(query, page, this.pageSize);
     } catch (err) {
-      this.loading = false;
-      this._emit();
+      // Only update loading state if this is still the latest fetch.
+      if (generation === this._fetchGeneration) {
+        this.loading = false;
+        this._emit();
+      }
       throw err;
     }
-    // TODO(candidate): when two fetches are in flight (e.g. the user typed
-    //                  quickly and the slow earlier request resolves after
-    //                  the fast later one), this assignment blindly applies
-    //                  whichever response lands LAST — even if it is for an
-    //                  obsolete query. Stale results clobber the fresh ones.
+
+    // If a newer fetch was initiated while we were waiting, discard this
+    // stale response entirely — it would overwrite fresher data.
+    if (generation !== this._fetchGeneration) {
+      return;
+    }
+
     this.users = result.users;
     this.total = result.total;
     this.loading = false;
