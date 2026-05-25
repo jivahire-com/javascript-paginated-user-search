@@ -42,6 +42,8 @@ export class UserSearch {
     this.total = 0;
     this.loading = false;
     this.debounceTimer = null;
+    // Bug 2 fix: generation counter to discard stale responses
+    this._fetchGeneration = 0;
   }
 
   /** Update the search query. Debounced. Subsequent calls cancel the prior timer. */
@@ -49,15 +51,12 @@ export class UserSearch {
     this.query = q;
     if (this.debounceTimer !== null) clearTimeout(this.debounceTimer);
 
-    // TODO(candidate): the debounced callback below freezes `page` at
-    //                  scheduling time. If the user switches page while the
-    //                  debounce is still pending, the fetch that finally
-    //                  fires is for the page they have already left — the
-    //                  list briefly shows results the user did not ask for.
-    const capturedPage = this.page;
+    // Bug 1 fix: read this.page at fire time, not at schedule time.
+    // The closure no longer captures `capturedPage` — instead _runFetch
+    // reads `this.page` at the moment the timer actually fires.
     this.debounceTimer = setTimeout(() => {
       this.debounceTimer = null;
-      void this._runFetch(q, capturedPage);
+      void this._runFetch(this.query, this.page);
     }, this.debounceMs);
   }
 
@@ -78,10 +77,8 @@ export class UserSearch {
       pageSize: this.pageSize,
       users: this.users,
       total: this.total,
-      // TODO(candidate): the formula below rounds the wrong way. A trailing
-      //                  partial page should still be reachable; right now
-      //                  the last few users disappear from the UI.
-      totalPages: Math.floor(this.total / this.pageSize),
+      // Bug 3 fix: ceil so trailing partial page is counted
+      totalPages: Math.ceil(this.total / this.pageSize),
       loading: this.loading,
     };
   }
@@ -99,25 +96,35 @@ export class UserSearch {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = null;
     }
+    // Invalidate any in-flight fetch so its resolve is a no-op
+    this._fetchGeneration++;
     this.listeners.clear();
   }
 
   async _runFetch(query, page) {
+    // Bug 2 fix: stamp this fetch with the current generation.
+    // If a newer fetch starts before this one resolves, the generation
+    // increments and this fetch's commit block becomes a no-op.
+    const generation = ++this._fetchGeneration;
+
     this.loading = true;
     this._emit();
+
     let result;
     try {
       result = await this.fetchUsers(query, page, this.pageSize);
     } catch (err) {
-      this.loading = false;
-      this._emit();
+      // Only clear loading if we are still the current fetch
+      if (generation === this._fetchGeneration) {
+        this.loading = false;
+        this._emit();
+      }
       throw err;
     }
-    // TODO(candidate): when two fetches are in flight (e.g. the user typed
-    //                  quickly and the slow earlier request resolves after
-    //                  the fast later one), this assignment blindly applies
-    //                  whichever response lands LAST — even if it is for an
-    //                  obsolete query. Stale results clobber the fresh ones.
+
+    // Discard if a newer fetch has already committed or is in flight
+    if (generation !== this._fetchGeneration) return;
+
     this.users = result.users;
     this.total = result.total;
     this.loading = false;
