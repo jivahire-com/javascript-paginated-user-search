@@ -10,11 +10,6 @@
  *   - `subscribe(cb)` notifies subscribers of every state transition.
  *   - `getState()` returns the latest snapshot for the renderer.
  *
- * The starter passes the simplest happy paths but has planted bugs in
- * (a) what the debounced callback closes over, (b) how overlapping fetches
- * are reconciled, and (c) the totalPages math. Read the failing public tests
- * before changing anything — they point at the bugs without naming them.
- *
  * Expected shapes:
  *   fetchUsers(query, page, pageSize) -> Promise<{ users: User[], total: number }>
  *   User  = { id: string, name: string, email: string }
@@ -42,6 +37,11 @@ export class UserSearch {
     this.total = 0;
     this.loading = false;
     this.debounceTimer = null;
+
+    // FIX Bug 2: counter incremented before every fetch; each async
+    // invocation closes over its own snapshot and discards itself if a
+    // newer fetch has started by the time it resolves.
+    this.currentRequestId = 0;
   }
 
   /** Update the search query. Debounced. Subsequent calls cancel the prior timer. */
@@ -49,15 +49,12 @@ export class UserSearch {
     this.query = q;
     if (this.debounceTimer !== null) clearTimeout(this.debounceTimer);
 
-    // TODO(candidate): the debounced callback below freezes `page` at
-    //                  scheduling time. If the user switches page while the
-    //                  debounce is still pending, the fetch that finally
-    //                  fires is for the page they have already left — the
-    //                  list briefly shows results the user did not ask for.
-    const capturedPage = this.page;
     this.debounceTimer = setTimeout(() => {
       this.debounceTimer = null;
-      void this._runFetch(q, capturedPage);
+      // FIX Bug 1: read this.page HERE (when the timer fires), not at
+      // scheduling time. Any setPage() calls that happened during the
+      // debounce window are now correctly picked up.
+      void this._runFetch(q, this.page);
     }, this.debounceMs);
   }
 
@@ -78,10 +75,10 @@ export class UserSearch {
       pageSize: this.pageSize,
       users: this.users,
       total: this.total,
-      // TODO(candidate): the formula below rounds the wrong way. A trailing
-      //                  partial page should still be reachable; right now
-      //                  the last few users disappear from the UI.
-      totalPages: Math.floor(this.total / this.pageSize),
+      // FIX Bug 3: Math.ceil so a trailing partial page is counted.
+      // e.g. 11 users / pageSize 5 → ceil(2.2) = 3 pages, not floor = 2.
+      // Edge case: total 0 → ceil(0) = 0, which is acceptable per the tests.
+      totalPages: Math.ceil(this.total / this.pageSize),
       loading: this.loading,
     };
   }
@@ -103,21 +100,29 @@ export class UserSearch {
   }
 
   async _runFetch(query, page) {
+    // FIX Bug 2: stamp this request before the await so any later fetch
+    // that starts while this one is in flight will invalidate us.
+    const requestId = ++this.currentRequestId;
+
     this.loading = true;
     this._emit();
+
     let result;
     try {
       result = await this.fetchUsers(query, page, this.pageSize);
     } catch (err) {
-      this.loading = false;
-      this._emit();
+      // Only clear loading for the request that is still current.
+      if (requestId === this.currentRequestId) {
+        this.loading = false;
+        this._emit();
+      }
       throw err;
     }
-    // TODO(candidate): when two fetches are in flight (e.g. the user typed
-    //                  quickly and the slow earlier request resolves after
-    //                  the fast later one), this assignment blindly applies
-    //                  whichever response lands LAST — even if it is for an
-    //                  obsolete query. Stale results clobber the fresh ones.
+
+    // FIX Bug 2: if a newer request has started since we awaited, discard
+    // this stale response entirely — do not touch users, total, or loading.
+    if (requestId !== this.currentRequestId) return;
+
     this.users = result.users;
     this.total = result.total;
     this.loading = false;
