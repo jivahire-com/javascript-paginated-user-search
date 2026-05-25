@@ -11,8 +11,6 @@ export class UserSearch {
     this.total = 0;
     this.loading = false;
     this.debounceTimer = null;
-    // Generation counter: incremented before every fetch so stale
-    // responses can detect they've been superseded.
     this._fetchGen = 0;
   }
 
@@ -25,9 +23,11 @@ export class UserSearch {
       this.debounceTimer = null;
       void this._runFetch(this.query, this.page);
     }, this.debounceMs);
+
+
   }
 
-  /** Switch to a specific page (1-indexed). Triggers a fetch immediately — not debounced. */
+  
   setPage(p) {
     if (!Number.isInteger(p) || p < 1) {
       throw new RangeError("page must be a positive integer");
@@ -70,9 +70,6 @@ export class UserSearch {
   }
 
   async _runFetch(query, page) {
-    // Fix #2 (race condition): stamp this fetch with the current generation.
-    // If a newer fetch starts before this one resolves, _fetchGen will have
-    // been incremented and we discard the result silently.
     const gen = ++this._fetchGen;
 
     this.loading = true;
