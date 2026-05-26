@@ -40,11 +40,11 @@ afterEach(() => {
 describe("basic API", () => {
   it("starts empty with sensible defaults @basic", () => {
     const { fetcher } = deferredFetcher();
-    const s = new UserSearch({ fetchUsers: fetcher, pageSize: 10 });
+    const s = new UserSearch({ fetchUsers: fetcher, pageSize: 20 });
     const st = s.getState();
     expect(st.query).toBe("");
     expect(st.page).toBe(1);
-    expect(st.pageSize).toBe(10);
+    expect(st.pageSize).toBe(20);
     expect(st.users).toEqual([]);
     expect(st.total).toBe(0);
     expect(st.loading).toBe(false);
