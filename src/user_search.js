@@ -22,14 +22,6 @@
  */
 
 export class UserSearch {
-  /**
-   * @param {{
-   *   fetchUsers: (query: string, page: number, pageSize: number) =>
-   *     Promise<{ users: Array<{id:string,name:string,email:string}>, total: number }>,
-   *   pageSize: number,
-   *   debounceMs?: number,
-   * }} opts
-   */
   constructor(opts) {
     this.fetchUsers = opts.fetchUsers;
     this.pageSize = opts.pageSize;
@@ -42,6 +34,7 @@ export class UserSearch {
     this.total = 0;
     this.loading = false;
     this.debounceTimer = null;
+    this._fetchId = 0; // monotonically incremented; guards against stale responses
   }
 
   /** Update the search query. Debounced. Subsequent calls cancel the prior timer. */
@@ -49,15 +42,10 @@ export class UserSearch {
     this.query = q;
     if (this.debounceTimer !== null) clearTimeout(this.debounceTimer);
 
-    // TODO(candidate): the debounced callback below freezes `page` at
-    //                  scheduling time. If the user switches page while the
-    //                  debounce is still pending, the fetch that finally
-    //                  fires is for the page they have already left — the
-    //                  list briefly shows results the user did not ask for.
-    const capturedPage = this.page;
+    // FIX Bug 1: read this.page and this.query at fire time, not at schedule time.
     this.debounceTimer = setTimeout(() => {
       this.debounceTimer = null;
-      void this._runFetch(q, capturedPage);
+      void this._runFetch(this.query, this.page);
     }, this.debounceMs);
   }
 
@@ -78,10 +66,8 @@ export class UserSearch {
       pageSize: this.pageSize,
       users: this.users,
       total: this.total,
-      // TODO(candidate): the formula below rounds the wrong way. A trailing
-      //                  partial page should still be reachable; right now
-      //                  the last few users disappear from the UI.
-      totalPages: Math.floor(this.total / this.pageSize),
+      // FIX Bug 3: ceil so a trailing partial page is always reachable.
+      totalPages: Math.ceil(this.total / this.pageSize),
       loading: this.loading,
     };
   }
@@ -99,25 +85,33 @@ export class UserSearch {
       clearTimeout(this.debounceTimer);
       this.debounceTimer = null;
     }
+    // Invalidate any in-flight fetch so its response is silently dropped.
+    this._fetchId++;
     this.listeners.clear();
   }
 
   async _runFetch(query, page) {
+    // FIX Bug 2: stamp this fetch; only the highest stamp may commit results.
+    const id = ++this._fetchId;
+
     this.loading = true;
     this._emit();
+
     let result;
     try {
       result = await this.fetchUsers(query, page, this.pageSize);
     } catch (err) {
-      this.loading = false;
-      this._emit();
+      // Only clear loading if this fetch is still the current one.
+      if (id === this._fetchId) {
+        this.loading = false;
+        this._emit();
+      }
       throw err;
     }
-    // TODO(candidate): when two fetches are in flight (e.g. the user typed
-    //                  quickly and the slow earlier request resolves after
-    //                  the fast later one), this assignment blindly applies
-    //                  whichever response lands LAST — even if it is for an
-    //                  obsolete query. Stale results clobber the fresh ones.
+
+    // Discard the response if a newer fetch has already started.
+    if (id !== this._fetchId) return;
+
     this.users = result.users;
     this.total = result.total;
     this.loading = false;
