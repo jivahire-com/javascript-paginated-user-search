@@ -17,3 +17,7 @@
 {"ts":1779866713055,"event_type":"auto_commit","payload":{"ts":"2026-05-27T07:25:10.018Z"},"id":"1779866713055.17672.17"}
 {"ts":1779866759708,"event_type":"app_unfocused","payload":{"ts":1779866759708},"id":"1779866759708.17672.18"}
 {"ts":1779866893045,"event_type":"auto_commit","payload":{"ts":"2026-05-27T07:28:10.023Z"},"id":"1779866893045.17672.19"}
+{"ts":1779867073325,"event_type":"auto_commit","payload":{"ts":"2026-05-27T07:31:10.043Z"},"id":"1779867073325.17672.20"}
+{"ts":1779867123087,"event_type":"app_focused","payload":{"time_away_seconds":363.374},"id":"1779867123087.17672.21"}
+{"ts":1779867184622,"event_type":"file_focus","payload":{"file":"package.json","ms":61537},"id":"1779867184622.17672.22"}
+{"ts":1779867184624,"event_type":"app_unfocused","payload":{"ts":1779867184622},"id":"1779867184624.17672.23"}
