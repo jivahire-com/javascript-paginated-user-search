@@ -3,3 +3,14 @@
 {"ts":1779865995429,"event_type":"auto_commit","payload":{"ts":"2026-05-27T07:13:09.985Z"},"id":"1779865995429.17672.3"}
 {"ts":1779866175280,"event_type":"auto_commit","payload":{"ts":"2026-05-27T07:16:09.991Z"},"id":"1779866175280.17672.4"}
 {"ts":1779866355172,"event_type":"auto_commit","payload":{"ts":"2026-05-27T07:19:10.000Z"},"id":"1779866355172.17672.5"}
+{"ts":1779866534969,"event_type":"auto_commit","payload":{"ts":"2026-05-27T07:22:10.011Z"},"id":"1779866534969.17672.6"}
+{"ts":1779866661852,"event_type":"file_focus","payload":{"file":"README.md","ms":1031889},"id":"1779866661852.17672.7"}
+{"ts":1779866661853,"event_type":"app_unfocused","payload":{"ts":1779866661852},"id":"1779866661853.17672.8"}
+{"ts":1779866667159,"event_type":"app_focused","payload":{"time_away_seconds":5.304},"id":"1779866667159.17672.9"}
+{"ts":1779866691427,"event_type":"file_focus","payload":{"file":"README.md","ms":24268},"id":"1779866691427.17672.10"}
+{"ts":1779866691559,"event_type":"file_open","payload":{"file":"SETUP.md"},"id":"1779866691559.17672.11"}
+{"ts":1779866696186,"event_type":"file_focus","payload":{"file":"SETUP.md","ms":4626},"id":"1779866696186.17672.12"}
+{"ts":1779866696801,"event_type":"file_focus","payload":{"file":"README.md","ms":575},"id":"1779866696801.17672.13"}
+{"ts":1779866696854,"event_type":"file_open","payload":{"file":"package.json"},"id":"1779866696854.17672.14"}
+{"ts":1779866697955,"event_type":"file_focus","payload":{"file":"package.json","ms":1100},"id":"1779866697955.17672.15"}
+{"ts":1779866697956,"event_type":"app_unfocused","payload":{"ts":1779866697955},"id":"1779866697956.17672.16"}
