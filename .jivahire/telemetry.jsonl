@@ -1,0 +1,8 @@
+{"ts":1779954391540,"event_type":"file_open","payload":{"file":"src/user_search.js"},"id":"1779954391540.18452.1"}
+{"ts":1779954516529,"event_type":"edit_ai_applied","payload":{"file":"src/user_search.js","chars":663,"block_id":"blk-rendered-4-1779954508952"},"id":"1779954516529.18452.2"}
+{"ts":1779954534375,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":142833},"id":"1779954534375.18452.3"}
+{"ts":1779954534485,"event_type":"file_open","payload":{"file":"README.md"},"id":"1779954534485.18452.4"}
+{"ts":1779954539126,"event_type":"file_focus","payload":{"file":"README.md","ms":4641},"id":"1779954539126.18452.5"}
+{"ts":1779954539162,"event_type":"file_open","payload":{"file":"SETUP.md"},"id":"1779954539162.18452.6"}
+{"ts":1779954545606,"event_type":"file_focus","payload":{"file":"SETUP.md","ms":6443},"id":"1779954545606.18452.7"}
+{"ts":1779954545607,"event_type":"app_unfocused","payload":{"ts":1779954545606},"id":"1779954545607.18452.8"}
