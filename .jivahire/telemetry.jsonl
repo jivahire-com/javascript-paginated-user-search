@@ -30,3 +30,15 @@
 {"ts":1779945601248,"event_type":"app_unfocused","payload":{"ts":1779945601247},"id":"1779945601248.3572.70"}
 {"ts":1779945644081,"event_type":"app_unfocused","payload":{"ts":1779945644081},"id":"1779945644081.3572.71"}
 {"ts":1779945930887,"event_type":"auto_commit","payload":{"ts":"2026-05-28T05:25:05.539Z"},"id":"1779945930887.3572.72"}
+{"ts":1779946102431,"event_type":"auto_commit","payload":{"ts":"2026-05-28T05:28:05.542Z"},"id":"1779946102431.3572.73"}
+{"ts":1779946145770,"event_type":"app_focused","payload":{"time_away_seconds":501.689},"id":"1779946145770.3572.74"}
+{"ts":1779946151349,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":5579},"id":"1779946151349.3572.75"}
+{"ts":1779946158493,"event_type":"terminal_command","payload":{"command_line":"npm test","kind":"test"},"id":"1779946158493.3572.76"}
+{"ts":1779946158495,"event_type":"test_run","payload":{"profile":"terminal","command_line":"npm test"},"id":"1779946158495.3572.77"}
+{"ts":1779946164842,"event_type":"file_focus","payload":{"file":".jivahire/telemetry.jsonl","ms":13460},"id":"1779946164842.3572.78"}
+{"ts":1779946167583,"event_type":"file_focus","payload":{"file":"README.md","ms":2672},"id":"1779946167583.3572.79"}
+{"ts":1779946176110,"event_type":"terminal_command","payload":{"command_line":"npm run test:tag \"@basic\"","kind":"test"},"id":"1779946176110.3572.80"}
+{"ts":1779946176111,"event_type":"test_run","payload":{"profile":"terminal","command_line":"npm run test:tag \"@basic\""},"id":"1779946176111.3572.81"}
+{"ts":1779946192915,"event_type":"file_focus","payload":{"file":"SETUP.md","ms":25292},"id":"1779946192915.3572.82"}
+{"ts":1779946192916,"event_type":"app_unfocused","payload":{"ts":1779946192915},"id":"1779946192916.3572.83"}
+{"ts":1779946194751,"event_type":"app_focused","payload":{"time_away_seconds":1.835},"id":"1779946194751.3572.84"}
