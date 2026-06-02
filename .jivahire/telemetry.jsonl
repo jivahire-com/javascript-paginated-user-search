@@ -1,0 +1,12 @@
+{"ts":1780401638052,"event_type":"file_open","payload":{"file":"SETUP.md"},"id":"1780401638052.20224.1"}
+{"ts":1780401642431,"event_type":"file_focus","payload":{"file":"SETUP.md","ms":4376},"id":"1780401642431.20224.2"}
+{"ts":1780401642450,"event_type":"file_open","payload":{"file":"README.md"},"id":"1780401642450.20224.3"}
+{"ts":1780401689932,"event_type":"file_focus","payload":{"file":"README.md","ms":47481},"id":"1780401689932.20224.4"}
+{"ts":1780401689933,"event_type":"app_unfocused","payload":{"ts":1780401689932},"id":"1780401689933.20224.5"}
+{"ts":1780401692528,"event_type":"app_focused","payload":{"time_away_seconds":2.596},"id":"1780401692528.20224.6"}
+{"ts":1780401706064,"event_type":"file_focus","payload":{"file":"README.md","ms":13536},"id":"1780401706064.20224.7"}
+{"ts":1780401706233,"event_type":"file_open","payload":{"file":"tests/user_search.public.test.js"},"id":"1780401706233.20224.8"}
+{"ts":1780401710496,"event_type":"file_focus","payload":{"file":"tests/user_search.public.test.js","ms":4262},"id":"1780401710496.20224.9"}
+{"ts":1780401710537,"event_type":"file_open","payload":{"file":"src/user_search.js"},"id":"1780401710537.20224.10"}
+{"ts":1780401805187,"event_type":"edit_ai_applied","payload":{"file":"src/user_search.js","chars":755,"block_id":"blk-rendered-1-1780401767932"},"id":"1780401805187.20224.11"}
+{"ts":1780401817111,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":106574},"id":"1780401817111.20224.12"}
