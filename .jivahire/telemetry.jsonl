@@ -128,3 +128,8 @@
 {"ts":1780558264255,"event_type":"app_unfocused","payload":{"ts":1780558264254},"id":"1780558264255.852.128"}
 {"ts":1780558374076,"event_type":"app_unfocused","payload":{"ts":1780558374076},"id":"1780558374076.852.129"}
 {"ts":1780558378475,"event_type":"auto_commit","payload":{"ts":"2026-06-04T07:32:54.040Z"},"id":"1780558378475.852.130"}
+{"ts":1780558557953,"event_type":"auto_commit","payload":{"ts":"2026-06-04T07:35:54.047Z"},"id":"1780558557953.852.131"}
+{"ts":1780558603918,"event_type":"app_focused","payload":{"time_away_seconds":229.839},"id":"1780558603918.852.132"}
+{"ts":1780558604930,"event_type":"file_focus","payload":{"file":"SETUP.md","ms":1013},"id":"1780558604930.852.133"}
+{"ts":1780558604931,"event_type":"app_unfocused","payload":{"ts":1780558604930},"id":"1780558604931.852.134"}
+{"ts":1780558606353,"event_type":"app_focused","payload":{"time_away_seconds":1.423},"id":"1780558606353.852.135"}
