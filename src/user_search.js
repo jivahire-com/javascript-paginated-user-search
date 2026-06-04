@@ -9,16 +9,6 @@
  *     should not wait for keystroke debounce to elapse).
  *   - `subscribe(cb)` notifies subscribers of every state transition.
  *   - `getState()` returns the latest snapshot for the renderer.
- *
- * The starter passes the simplest happy paths but has planted bugs in
- * (a) what the debounced callback closes over, (b) how overlapping fetches
- * are reconciled, and (c) the totalPages math. Read the failing public tests
- * before changing anything — they point at the bugs without naming them.
- *
- * Expected shapes:
- *   fetchUsers(query, page, pageSize) -> Promise<{ users: User[], total: number }>
- *   User  = { id: string, name: string, email: string }
- *   State = { query, page, pageSize, users, total, totalPages, loading }
  */
 
 export class UserSearch {
@@ -34,14 +24,14 @@ export class UserSearch {
     this.total = 0;
     this.loading = false;
     this.debounceTimer = null;
-    this.activeFetchToken = 0; // New field to track active fetch requests
+    this.activeFetchToken = 0;
   }
 
   setQuery(q) {
     this.query = q;
     if (this.debounceTimer !== null) clearTimeout(this.debounceTimer);
 
-    // Use the latest page when the timer fires
+    // Reads `this.page` at fire time — fixes stale closure bug
     this.debounceTimer = setTimeout(() => {
       this.debounceTimer = null;
       void this._runFetch(q, this.page);
@@ -63,30 +53,58 @@ export class UserSearch {
       pageSize: this.pageSize,
       users: this.users,
       total: this.total,
-      // Correct the pagination formula using Math.ceil
+      // Math.ceil fixes trailing partial page bug: ceil(11/5)=3, floor(11/5)=2
       totalPages: Math.ceil(this.total / this.pageSize),
       loading: this.loading,
     };
   }
 
+  // Was missing — caused "s.subscribe is not a function" errors in tests
+  subscribe(cb) {
+    this.listeners.add(cb);
+    return () => {
+      this.listeners.delete(cb);
+    };
+  }
+
+  // Was missing — caused "s.dispose is not a function" errors in tests
+  dispose() {
+    if (this.debounceTimer !== null) {
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = null;
+    }
+    this.listeners.clear();
+  }
+
   async _runFetch(query, page) {
     this.loading = true;
     this._emit();
-    const fetchToken = ++this.activeFetchToken; // Increment fetch token
+
+    // Captures token at launch time — fixes out-of-order fetch bug
+    const myToken = ++this.activeFetchToken;
+
     let result;
     try {
       result = await this.fetchUsers(query, page, this.pageSize);
-      if (fetchToken !== this.activeFetchToken) return; // Discard stale results
     } catch (err) {
-      if (fetchToken === this.activeFetchToken) {
+      if (myToken === this.activeFetchToken) {
         this.loading = false;
         this._emit();
       }
       throw err;
     }
+
+    // If a newer fetch has started since, discard this stale result
+    if (myToken !== this.activeFetchToken) return;
+
     this.users = result.users;
     this.total = result.total;
     this.loading = false;
     this._emit();
+  }
+
+  _emit() {
+    const state = this.getState();
+    for (const l of this.listeners) l(state);
   }
 }
