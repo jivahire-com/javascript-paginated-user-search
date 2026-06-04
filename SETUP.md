@@ -10,7 +10,7 @@
 
 **No other installs needed.** `vitest` is pulled by `npm install`.
 
-## Install
+## Install 
 
 **macOS**
 ```bash
