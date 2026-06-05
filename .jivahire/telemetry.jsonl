@@ -1,0 +1,17 @@
+{"ts":1780636572120,"event_type":"file_open","payload":{"file":"SETUP.md"},"id":"1780636572120.20076.1"}
+{"ts":1780636577419,"event_type":"file_focus","payload":{"file":"SETUP.md","ms":5297},"id":"1780636577419.20076.2"}
+{"ts":1780636577475,"event_type":"file_open","payload":{"file":"README.md"},"id":"1780636577475.20076.3"}
+{"ts":1780636584792,"event_type":"file_focus","payload":{"file":"README.md","ms":7316},"id":"1780636584792.20076.4"}
+{"ts":1780636584913,"event_type":"file_open","payload":{"file":"tests/user_search.public.test.js"},"id":"1780636584913.20076.5"}
+{"ts":1780636593256,"event_type":"file_focus","payload":{"file":"tests/user_search.public.test.js","ms":8343},"id":"1780636593256.20076.6"}
+{"ts":1780636593307,"event_type":"file_open","payload":{"file":"src/user_search.js"},"id":"1780636593307.20076.7"}
+{"ts":1780636597283,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":3975},"id":"1780636597283.20076.8"}
+{"ts":1780636597284,"event_type":"app_unfocused","payload":{"ts":1780636597283},"id":"1780636597284.20076.9"}
+{"ts":1780636650709,"event_type":"app_focused","payload":{"time_away_seconds":53.425},"id":"1780636650709.20076.10"}
+{"ts":1780636707383,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":56675},"id":"1780636707383.20076.11"}
+{"ts":1780636707384,"event_type":"app_unfocused","payload":{"ts":1780636707383},"id":"1780636707384.20076.12"}
+{"ts":1780636716423,"event_type":"app_focused","payload":{"time_away_seconds":9.04},"id":"1780636716423.20076.13"}
+{"ts":1780636729849,"event_type":"edit_ai_applied","payload":{"file":"src/user_search.js","chars":949,"block_id":"blk-rendered-1-1780636720002"},"id":"1780636729849.20076.14"}
+{"ts":1780636733221,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":16798},"id":"1780636733221.20076.15"}
+{"ts":1780636735415,"event_type":"file_focus","payload":{"file":"tests/user_search.public.test.js","ms":2110},"id":"1780636735415.20076.16"}
+{"ts":1780636735468,"event_type":"file_open","payload":{"file":"package.json"},"id":"1780636735468.20076.17"}
