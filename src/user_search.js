@@ -70,7 +70,7 @@ export class UserSearch {
       users: this.users,
       total: this.total,
       // Bug 3 fix: ceil so a trailing partial page is counted.
-      totalPages: Math.floor(this.total / this.pageSize),
+      totalPages: Math.ceil(this.total / this.pageSize),
       loading: this.loading,
     };
   }
