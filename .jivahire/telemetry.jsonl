@@ -1,0 +1,6 @@
+{"ts":1780665922591,"event_type":"file_open","payload":{"file":"src/user_search.js"},"id":"1780665922591.24184.1"}
+{"ts":1780666004477,"event_type":"edit_ai_applied","payload":{"file":"src/user_search.js","chars":585,"block_id":"blk-rendered-1-1780665987342"},"id":"1780666004477.24184.2"}
+{"ts":1780666015484,"event_type":"terminal_command","payload":{"command_line":"npm i","kind":"install"},"id":"1780666015484.24184.3"}
+{"ts":1780666066276,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":143683},"id":"1780666066276.24184.4"}
+{"ts":1780666066277,"event_type":"app_unfocused","payload":{"ts":1780666066276},"id":"1780666066277.24184.5"}
+{"ts":1780666318835,"event_type":"app_unfocused","payload":{"ts":1780666318834},"id":"1780666318835.24184.6"}
