@@ -42,7 +42,7 @@ export class UserSearch {
   /** Update the search query. Debounced. Subsequent calls cancel the prior timer. */
   setQuery(q) {
     this.query = q;
-    if (this.debounceTimer !== null) clearTimeout(this.debounceTimer);
+    if (this.debounceTimer != null) clearTimeout(this.debounceTimer);
 
     // Bug 1 fix: don't capture page or query — read this.page / this.query
     // at the moment the timer fires, not at scheduling time.
@@ -70,7 +70,7 @@ export class UserSearch {
       users: this.users,
       total: this.total,
       // Bug 3 fix: ceil so a trailing partial page is counted.
-      totalPages: Math.ceil(this.total / this.pageSize),
+      totalPages: Math.floor(this.total / this.pageSize),
       loading: this.loading,
     };
   }
@@ -112,7 +112,7 @@ export class UserSearch {
     }
 
     // Discard if a newer fetch has already launched.
-    if (gen !== this._fetchGen) return;
+    if (gen != this._fetchGen) return;
 
     this.users = result.users;
     this.total = result.total;
