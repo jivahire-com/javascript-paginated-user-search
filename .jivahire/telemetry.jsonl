@@ -1,0 +1,10 @@
+{"ts":1780981918437,"event_type":"file_open","payload":{"file":"package.json"},"id":"1780981918437.23072.1"}
+{"ts":1780981920380,"event_type":"file_focus","payload":{"file":"package.json","ms":1942},"id":"1780981920380.23072.2"}
+{"ts":1780981920449,"event_type":"file_open","payload":{"file":"SETUP.md"},"id":"1780981920449.23072.3"}
+{"ts":1780981960180,"event_type":"file_focus","payload":{"file":"SETUP.md","ms":39730},"id":"1780981960180.23072.4"}
+{"ts":1780981960307,"event_type":"file_open","payload":{"file":"tests/user_search.public.test.js"},"id":"1780981960307.23072.5"}
+{"ts":1780981969323,"event_type":"file_focus","payload":{"file":"tests/user_search.public.test.js","ms":9015},"id":"1780981969323.23072.6"}
+{"ts":1780981969390,"event_type":"file_open","payload":{"file":"src/user_search.js"},"id":"1780981969390.23072.7"}
+{"ts":1780981979329,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":9939},"id":"1780981979329.23072.8"}
+{"ts":1780981979330,"event_type":"app_unfocused","payload":{"ts":1780981979329},"id":"1780981979330.23072.9"}
+{"ts":1780982030923,"event_type":"app_unfocused","payload":{"ts":1780982030923},"id":"1780982030923.23072.10"}
