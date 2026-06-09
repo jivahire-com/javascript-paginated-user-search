@@ -9,3 +9,7 @@
 {"ts":1780981979330,"event_type":"app_unfocused","payload":{"ts":1780981979329},"id":"1780981979330.23072.9"}
 {"ts":1780982030923,"event_type":"app_unfocused","payload":{"ts":1780982030923},"id":"1780982030923.23072.10"}
 {"ts":1780982099518,"event_type":"auto_commit","payload":{"ts":"2026-06-09T05:14:50.529Z"},"id":"1780982099518.23072.11"}
+{"ts":1780982277222,"event_type":"auto_commit","payload":{"ts":"2026-06-09T05:17:50.528Z"},"id":"1780982277222.23072.12"}
+{"ts":1780982327920,"event_type":"app_focused","payload":{"time_away_seconds":296.994},"id":"1780982327920.23072.13"}
+{"ts":1780982329047,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":1128},"id":"1780982329047.23072.14"}
+{"ts":1780982329055,"event_type":"app_unfocused","payload":{"ts":1780982329047},"id":"1780982329055.23072.15"}
