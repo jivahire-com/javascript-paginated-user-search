@@ -19,3 +19,6 @@
 {"ts":1781172001734,"event_type":"app_focused","payload":{"time_away_seconds":0.292},"id":"1781172001734.19580.19"}
 {"ts":1781172043458,"event_type":"auto_commit","payload":{"ts":"2026-06-11T10:00:38.748Z"},"id":"1781172043458.19580.20"}
 {"ts":1781172229402,"event_type":"auto_commit","payload":{"ts":"2026-06-11T10:03:38.750Z"},"id":"1781172229402.19580.21"}
+{"ts":1781172403495,"event_type":"auto_commit","payload":{"ts":"2026-06-11T10:06:38.758Z"},"id":"1781172403495.19580.22"}
+{"ts":1781172567723,"event_type":"app_unfocused","payload":{"ts":1781172567723},"id":"1781172567723.19580.23"}
+{"ts":1781172568469,"event_type":"app_focused","payload":{"time_away_seconds":0.746},"id":"1781172568469.19580.24"}
