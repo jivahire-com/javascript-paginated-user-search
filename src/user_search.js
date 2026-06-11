@@ -104,8 +104,6 @@ export class UserSearch {
     try {
       result = await this.fetchUsers(query, page, this.pageSize);
     } catch (err) {
-      this.loading = false;
-      this._emit();
       // Only clear loading if this is still the active fetch.
       if (generation === this._fetchGeneration) {
         this.loading = false;
@@ -113,11 +111,6 @@ export class UserSearch {
       }
       throw err;
     }
-    // TODO(candidate): when two fetches are in flight (e.g. the user typed
-    //                  quickly and the slow earlier request resolves after
-    //                  the fast later one), this assignment blindly applies
-    //                  whichever response lands LAST — even if it is for an
-    //                  obsolete query. Stale results clobber the fresh ones.
 
     // Discard the response if a newer fetch has since been started.
     if (generation !== this._fetchGeneration) return;
