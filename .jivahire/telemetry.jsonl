@@ -1,0 +1,7 @@
+{"ts":1781200231133,"event_type":"file_open","payload":{"file":"SETUP.md"},"id":"1781200231133.13216.1"}
+{"ts":1781200245344,"event_type":"file_focus","payload":{"file":"SETUP.md","ms":14208},"id":"1781200245344.13216.2"}
+{"ts":1781200245387,"event_type":"file_open","payload":{"file":"README.md"},"id":"1781200245387.13216.3"}
+{"ts":1781200254729,"event_type":"file_focus","payload":{"file":"README.md","ms":9342},"id":"1781200254729.13216.4"}
+{"ts":1781200254817,"event_type":"file_open","payload":{"file":"tests/user_search.public.test.js"},"id":"1781200254817.13216.5"}
+{"ts":1781200257255,"event_type":"file_focus","payload":{"file":"tests/user_search.public.test.js","ms":2437},"id":"1781200257255.13216.6"}
+{"ts":1781200257299,"event_type":"file_open","payload":{"file":"src/user_search.js"},"id":"1781200257299.13216.7"}
