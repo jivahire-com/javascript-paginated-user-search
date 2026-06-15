@@ -81,7 +81,7 @@ export class UserSearch {
       // TODO(candidate): the formula below rounds the wrong way. A trailing
       //                  partial page should still be reachable; right now
       //                  the last few users disappear from the UI.
-      totalPages: Math.floor(this.total / this.pageSize),
+      totalPages: Math.ceil(this.total / this.pageSize),
       loading: this.loading,
     };
   }
