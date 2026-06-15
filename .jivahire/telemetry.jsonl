@@ -42,3 +42,10 @@
 {"ts":1781523331907,"event_type":"edit_ai_applied","payload":{"file":"src/user_search.js","chars":546,"block_id":"blk-rendered-1-1781523161779"},"id":"1781523331907.368.41"}
 {"ts":1781523341468,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":41169},"id":"1781523341468.368.42"}
 {"ts":1781523341706,"event_type":"file_open","payload":{"file":"tests/user_search.public.test.js"},"id":"1781523341706.368.43"}
+{"ts":1781523352230,"event_type":"file_focus","payload":{"file":"tests/user_search.public.test.js","ms":10523},"id":"1781523352230.368.44"}
+{"ts":1781523352231,"event_type":"app_unfocused","payload":{"ts":1781523352230},"id":"1781523352231.368.45"}
+{"ts":1781523354664,"event_type":"app_focused","payload":{"time_away_seconds":2.413},"id":"1781523354664.368.46"}
+{"ts":1781523355561,"event_type":"auto_commit","payload":{"ts":"2026-06-15T11:35:50.695Z"},"id":"1781523355561.368.47"}
+{"ts":1781523355804,"event_type":"file_focus","payload":{"file":"tests/user_search.public.test.js","ms":1140},"id":"1781523355804.368.48"}
+{"ts":1781523355806,"event_type":"app_unfocused","payload":{"ts":1781523355804},"id":"1781523355806.368.49"}
+{"ts":1781523416891,"event_type":"app_unfocused","payload":{"ts":1781523416891},"id":"1781523416891.368.50"}
