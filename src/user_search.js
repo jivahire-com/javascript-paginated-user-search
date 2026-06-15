@@ -42,6 +42,11 @@ export class UserSearch {
     this.total = 0;
     this.loading = false;
     this.debounceTimer = null;
+    // Generation counter: incremented on every fetch dispatch.
+    // Each _runFetch captures its own generation; if a newer fetch
+    // has already been dispatched when the response lands, the
+    // response is discarded.
+    this.fetchGeneration = 0;
   }
 
   /** Update the search query. Debounced. Subsequent calls cancel the prior timer. */
@@ -49,15 +54,12 @@ export class UserSearch {
     this.query = q;
     if (this.debounceTimer !== null) clearTimeout(this.debounceTimer);
 
-    // TODO(candidate): the debounced callback below freezes `page` at
-    //                  scheduling time. If the user switches page while the
-    //                  debounce is still pending, the fetch that finally
-    //                  fires is for the page they have already left — the
-    //                  list briefly shows results the user did not ask for.
-    const capturedPage = this.page;
+    // FIX (a): do NOT capture page at scheduling time.
+    // Read `this.page` inside the callback so the debounced fetch
+    // always uses whatever page the user is on when the timer fires.
     this.debounceTimer = setTimeout(() => {
       this.debounceTimer = null;
-      void this._runFetch(q, capturedPage);
+      void this._runFetch(this.query, this.page);
     }, this.debounceMs);
   }
 
@@ -78,10 +80,8 @@ export class UserSearch {
       pageSize: this.pageSize,
       users: this.users,
       total: this.total,
-      // TODO(candidate): the formula below rounds the wrong way. A trailing
-      //                  partial page should still be reachable; right now
-      //                  the last few users disappear from the UI.
-      totalPages: Math.floor(this.total / this.pageSize),
+      // FIX (c): use Math.ceil so a trailing partial page is counted.
+      totalPages: Math.ceil(this.total / this.pageSize) || 0,
       loading: this.loading,
     };
   }
@@ -103,21 +103,28 @@ export class UserSearch {
   }
 
   async _runFetch(query, page) {
+    // FIX (b): stamp this fetch with the current generation, then
+    // increment so any fetch dispatched later gets a higher stamp.
+    const myGeneration = ++this.fetchGeneration;
+
     this.loading = true;
     this._emit();
     let result;
     try {
       result = await this.fetchUsers(query, page, this.pageSize);
     } catch (err) {
-      this.loading = false;
-      this._emit();
+      // Only clear loading if this is still the active fetch.
+      if (myGeneration === this.fetchGeneration) {
+        this.loading = false;
+        this._emit();
+      }
       throw err;
     }
-    // TODO(candidate): when two fetches are in flight (e.g. the user typed
-    //                  quickly and the slow earlier request resolves after
-    //                  the fast later one), this assignment blindly applies
-    //                  whichever response lands LAST — even if it is for an
-    //                  obsolete query. Stale results clobber the fresh ones.
+
+    // Discard stale responses — a newer fetch has already landed or
+    // is in flight, so do not overwrite its results.
+    if (myGeneration !== this.fetchGeneration) return;
+
     this.users = result.users;
     this.total = result.total;
     this.loading = false;
