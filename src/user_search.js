@@ -128,4 +128,4 @@ export class UserSearch {
     const state = this.getState();
     for (const l of this.listeners) l(state);
   }
-}
+} js
