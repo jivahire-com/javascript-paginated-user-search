@@ -4,3 +4,17 @@
 {"ts":1781522425985,"event_type":"app_unfocused","payload":{"ts":1781522425982},"id":"1781522425985.368.3"}
 {"ts":1781522467182,"event_type":"auto_commit","payload":{"ts":"2026-06-15T11:20:50.645Z"},"id":"1781522467183.368.4"}
 {"ts":1781522608529,"event_type":"app_focused","payload":{"time_away_seconds":182.522},"id":"1781522608529.368.5"}
+{"ts":1781522634032,"event_type":"file_focus","payload":{"file":"src/user_search.js","ms":25516},"id":"1781522634032.368.6"}
+{"ts":1781522634210,"event_type":"file_open","payload":{"file":"SETUP.md"},"id":"1781522634210.368.7"}
+{"ts":1781522635373,"event_type":"auto_commit","payload":{"ts":"2026-06-15T11:23:50.616Z"},"id":"1781522635373.368.8"}
+{"ts":1781522644282,"event_type":"file_focus","payload":{"file":"SETUP.md","ms":10071},"id":"1781522644282.368.9"}
+{"ts":1781522644286,"event_type":"app_unfocused","payload":{"ts":1781522644282},"id":"1781522644286.368.10"}
+{"ts":1781522685548,"event_type":"app_unfocused","payload":{"ts":1781522685538},"id":"1781522685554.368.11"}
+{"ts":1781522726934,"event_type":"app_focused","payload":{"time_away_seconds":41.386},"id":"1781522726934.368.12"}
+{"ts":1781522731675,"event_type":"file_focus","payload":{"file":"SETUP.md","ms":4742},"id":"1781522731675.368.13"}
+{"ts":1781522731865,"event_type":"file_open","payload":{"file":"README.md"},"id":"1781522731865.368.14"}
+{"ts":1781522737264,"event_type":"file_focus","payload":{"file":"README.md","ms":5399},"id":"1781522737264.368.15"}
+{"ts":1781522737267,"event_type":"app_unfocused","payload":{"ts":1781522737264},"id":"1781522737267.368.16"}
+{"ts":1781522774295,"event_type":"app_focused","payload":{"time_away_seconds":37.03},"id":"1781522774295.368.17"}
+{"ts":1781522774955,"event_type":"file_focus","payload":{"file":"README.md","ms":660},"id":"1781522774955.368.18"}
+{"ts":1781522774956,"event_type":"app_unfocused","payload":{"ts":1781522774955},"id":"1781522774956.368.19"}
