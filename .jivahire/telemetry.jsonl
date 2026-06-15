@@ -1,1 +1,3 @@
-{"ts":1781503684585,"event_type":"file_focus","payload":{"file":".jivahire/telemetry.jsonl","ms":11237},"id":"1781503684585.4380.64"}
+{"ts":1781503697718,"event_type":"file_focus","payload":{"file":".jivahire/telemetry.jsonl","ms":9857},"id":"1781503697718.4380.67"}
+{"ts":1781503697719,"event_type":"app_unfocused","payload":{"ts":1781503697718},"id":"1781503697719.4380.68"}
+{"ts":1781503699048,"event_type":"app_focused","payload":{"time_away_seconds":1.33},"id":"1781503699048.4380.69"}
